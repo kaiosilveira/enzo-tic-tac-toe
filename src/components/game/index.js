@@ -9,6 +9,7 @@ const Game = () => {
   const [boardHistory, setBoardHistory] = useState([]);
   const [currentSymbol, setCurrentSymbol] = useState(SYMBOLS.O);
   const [currentMove, setCurrentMove] = useState(0);
+  const [winner, setWinner] = useState(undefined);
 
   const redoPlay = () => {
     const targetMove = Math.min(boardHistory.length - 1, currentMove + 1);
@@ -33,6 +34,10 @@ const Game = () => {
     setBoard(newBoardState);
     setBoardHistory([...boardHistory, newBoardState]);
     setCurrentMove(currentMove + 1);
+
+    if (newBoardState.slice(0, 3).every(i => i === playedSymbol)) {
+      setWinner(playedSymbol);
+    }
   };
 
   useEffect(() => {
@@ -41,11 +46,12 @@ const Game = () => {
 
   return (
     <React.Fragment>
+      {winner && <div>Winner: {winner}</div>}
       <S.Controls>
         <button onClick={undoPlay}>{"<"}</button>
         <button onClick={redoPlay}>{">"}</button>
       </S.Controls>
-      <S.Game data-testid="squares">
+      <S.Game data-testid="game">
         {board.map((value, i) => (
           <Square key={i} symbol={value} onClick={() => play(i)} />
         ))}
