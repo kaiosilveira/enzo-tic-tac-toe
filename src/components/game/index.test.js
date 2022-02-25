@@ -136,12 +136,15 @@ describe("Game", () => {
       act(() => rollbackBtn.click());
       act(() => rollbackBtn.click());
       act(() => rollbackBtn.click());
+      act(() => firstSquare.click());
       expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
       expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
       expect(thirdSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
 
       act(() => rollForwardBtn.click());
+      act(() => secondSquare.click());
       act(() => rollForwardBtn.click());
+      act(() => thirdSquare.click());
       act(() => rollForwardBtn.click());
       act(() => rollForwardBtn.click());
       expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");

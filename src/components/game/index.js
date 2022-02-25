@@ -25,6 +25,7 @@ const Game = () => {
 
   const play = position => {
     if (board[position] !== "") return;
+    if (currentMove !== boardHistory.length - 1) return;
 
     const playedSymbol = currentSymbol === SYMBOLS.X ? SYMBOLS.O : SYMBOLS.X;
     setCurrentSymbol(playedSymbol);
