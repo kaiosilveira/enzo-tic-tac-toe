@@ -59,7 +59,7 @@ const Game = () => {
 
   useEffect(() => {
     setBoardHistory([board]);
-  }, []);
+  }, [board]);
 
   return (
     <React.Fragment>
