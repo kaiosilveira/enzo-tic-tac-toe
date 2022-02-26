@@ -28,7 +28,6 @@ const Game = () => {
   const isTimeTravelling = () => currentMove < Math.max(0, boardHistory.length - 1);
   const moveBackwards = () => {
     const targetMove = Math.max(0, currentMove - 1);
-    console.log(targetMove, currentMove);
     travelInTime({ targetMove });
   };
   const moveForwards = () => {
