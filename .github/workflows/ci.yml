@@ -1,11 +1,11 @@
-name: Deploy to Development Environment
+name: Continous Integration
 
 on:
   push:
     branches: [main]
 
 jobs:
-  deploy-to-dev:
+  continous-integration:
     runs-on: ubuntu-latest
 
     strategy:
