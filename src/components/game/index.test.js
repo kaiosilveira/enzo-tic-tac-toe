@@ -11,9 +11,9 @@ describe('Game', () => {
     });
 
     it('should have the control buttons to move backwards and forwards disabled', () => {
-      const { getByText } = render(<Game />);
-      expect(getByText('<')).toBeDisabled();
-      expect(getByText('>')).toBeDisabled();
+      render(<Game />);
+      expect(screen.getByText('<')).toBeDisabled();
+      expect(screen.getByText('>')).toBeDisabled();
     });
   });
 
@@ -183,13 +183,14 @@ describe('Game', () => {
       expect(screen.getByText(`Winner: X`)).toBeInTheDocument();
     });
 
+    // eslint-disable-next-line jest/valid-title
     it(`
     O  O  -
     X  X  X
     -  -  -
     `, () => {
-      const aGame = render(<Game />);
-      const squares = aGame.queryAllByRole('square');
+      render(<Game />);
+      const squares = screen.queryAllByRole('square');
       const firstSquare = squares[0];
       const secondSquare = squares[1];
       const fourthSquare = squares[3];
@@ -202,7 +203,7 @@ describe('Game', () => {
       fireEvent.click(secondSquare);
       fireEvent.click(sixthSquare);
 
-      expect(aGame.getByText(`Winner: X`)).toBeInTheDocument();
+      expect(screen.getByText(`Winner: X`)).toBeInTheDocument();
     });
 
     it(`
