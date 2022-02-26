@@ -1,145 +1,145 @@
-import { render } from "@testing-library/react";
-import { act } from "react-dom/test-utils";
-import Game from ".";
+import { render } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
+import Game from '.';
 
-describe("Game", () => {
-  describe("rendering squares", () => {
-    it("should render 9 squares", () => {
+describe('Game', () => {
+  describe('rendering squares', () => {
+    it('should render 9 squares', () => {
       const el = render(<Game />);
-      const squares = el.getByTestId("game");
+      const squares = el.getByTestId('game');
       expect(squares.childElementCount).toEqual(9);
     });
   });
 
-  describe("clicking squares", () => {
-    it("should set the square value when clicked", () => {
-      const el = render(<Game />).getByTestId("game");
+  describe('clicking squares', () => {
+    it('should set the square value when clicked', () => {
+      const el = render(<Game />).getByTestId('game');
       const firstSquare = el.childNodes[0];
 
       act(() => firstSquare.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      expect(firstSquare.getElementsByTagName('span')[0].innerHTML).toBe('X');
     });
 
-    it("should not allow multiple clicks on the same square", () => {
-      const el = render(<Game />).getByTestId("game");
+    it('should ignore multiple clicks on the same square', () => {
+      const el = render(<Game />).getByTestId('game');
       const firstSquare = el.childNodes[0];
 
       act(() => firstSquare.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      expect(firstSquare.getElementsByTagName('span')[0].innerHTML).toBe('X');
 
       act(() => firstSquare.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      expect(firstSquare.getElementsByTagName('span')[0].innerHTML).toBe('X');
     });
   });
 
-  describe("undoing actions", () => {
-    it("should allow the user to move back a move", () => {
+  describe('undoing actions', () => {
+    it('should allow the user to move back a move', () => {
       const el = render(<Game />);
-      const rollbackBtn = el.getByText("<");
-      const firstSquare = el.getByTestId("game").childNodes[0];
+      const rollbackBtn = el.getByText('<');
+      const firstSquare = el.getByTestId('game').childNodes[0];
 
       act(() => firstSquare.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      expect(firstSquare.getElementsByTagName('span')[0].innerHTML).toBe('X');
 
       act(() => rollbackBtn.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
+      expect(firstSquare.getElementsByTagName('span')[0].innerHTML).toBe('');
     });
 
-    it("should not allow to move back if there are no more moves to rollback", () => {
+    it('should not allow to move back if there are no more moves to rollback', () => {
       const el = render(<Game />);
-      const rollbackBtn = el.getByText("<");
-      const firstSquare = el.getByTestId("game").childNodes[0];
-      const secondSquare = el.getByTestId("game").childNodes[1];
+      const rollbackBtn = el.getByText('<');
+      const firstSquare = el.getByTestId('game').childNodes[0];
+      const secondSquare = el.getByTestId('game').childNodes[1];
 
       act(() => firstSquare.click());
       act(() => secondSquare.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("O");
+      expect(firstSquare.getElementsByTagName('span')[0].innerHTML).toBe('X');
+      expect(secondSquare.getElementsByTagName('span')[0].innerHTML).toBe('O');
 
       act(() => rollbackBtn.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
+      expect(firstSquare.getElementsByTagName('span')[0].innerHTML).toBe('X');
+      expect(secondSquare.getElementsByTagName('span')[0].innerHTML).toBe('');
 
       act(() => rollbackBtn.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
+      expect(firstSquare.getElementsByTagName('span')[0].innerHTML).toBe('');
+      expect(secondSquare.getElementsByTagName('span')[0].innerHTML).toBe('');
 
       act(() => rollbackBtn.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
+      expect(firstSquare.getElementsByTagName('span')[0].innerHTML).toBe('');
+      expect(secondSquare.getElementsByTagName('span')[0].innerHTML).toBe('');
     });
   });
 
-  describe("redoing actions", () => {
-    it("should allow the user to move forward to a move made", () => {
+  describe('redoing actions', () => {
+    it('should allow the user to move forward to a move made', () => {
       const el = render(<Game />);
-      const rollbackBtn = el.getByText("<");
-      const rollForwardBtn = el.getByText(">");
-      const firstSquare = el.getByTestId("game").childNodes[0];
+      const rollbackBtn = el.getByText('<');
+      const rollForwardBtn = el.getByText('>');
+      const firstSquare = el.getByTestId('game').childNodes[0];
 
       act(() => firstSquare.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      expect(firstSquare.getElementsByTagName('span')[0].innerHTML).toBe('X');
 
       act(() => rollbackBtn.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
+      expect(firstSquare.getElementsByTagName('span')[0].innerHTML).toBe('');
 
       act(() => rollForwardBtn.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      expect(firstSquare.getElementsByTagName('span')[0].innerHTML).toBe('X');
     });
 
-    it("should not allow to move forward if there are no more moves ahead", () => {
+    it('should not allow to move forward if there are no more moves ahead', () => {
       const el = render(<Game />);
-      const rollbackBtn = el.getByText("<");
-      const rollForwardBtn = el.getByText(">");
-      const firstSquare = el.getByTestId("game").childNodes[0];
-      const secondSquare = el.getByTestId("game").childNodes[1];
-      const thirdSquare = el.getByTestId("game").childNodes[2];
+      const rollbackBtn = el.getByText('<');
+      const rollForwardBtn = el.getByText('>');
+      const firstSquare = el.getByTestId('game').childNodes[0];
+      const secondSquare = el.getByTestId('game').childNodes[1];
+      const thirdSquare = el.getByTestId('game').childNodes[2];
 
       act(() => firstSquare.click());
       act(() => secondSquare.click());
       act(() => thirdSquare.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("O");
-      expect(thirdSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      expect(firstSquare.getElementsByTagName('span')[0].innerHTML).toBe('X');
+      expect(secondSquare.getElementsByTagName('span')[0].innerHTML).toBe('O');
+      expect(thirdSquare.getElementsByTagName('span')[0].innerHTML).toBe('X');
 
       act(() => rollbackBtn.click());
       act(() => rollbackBtn.click());
       act(() => rollbackBtn.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
-      expect(thirdSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
+      expect(firstSquare.getElementsByTagName('span')[0].innerHTML).toBe('');
+      expect(secondSquare.getElementsByTagName('span')[0].innerHTML).toBe('');
+      expect(thirdSquare.getElementsByTagName('span')[0].innerHTML).toBe('');
 
       act(() => rollForwardBtn.click());
       act(() => rollForwardBtn.click());
       act(() => rollForwardBtn.click());
       act(() => rollForwardBtn.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("O");
-      expect(thirdSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      expect(firstSquare.getElementsByTagName('span')[0].innerHTML).toBe('X');
+      expect(secondSquare.getElementsByTagName('span')[0].innerHTML).toBe('O');
+      expect(thirdSquare.getElementsByTagName('span')[0].innerHTML).toBe('X');
     });
 
-    it("should ignore plays if the current board state is not the last one", () => {
+    it('should ignore plays if the current board state is not the last one', () => {
       const el = render(<Game />);
-      const rollbackBtn = el.getByText("<");
-      const rollForwardBtn = el.getByText(">");
-      const firstSquare = el.getByTestId("game").childNodes[0];
-      const secondSquare = el.getByTestId("game").childNodes[1];
-      const thirdSquare = el.getByTestId("game").childNodes[2];
+      const rollbackBtn = el.getByText('<');
+      const rollForwardBtn = el.getByText('>');
+      const firstSquare = el.getByTestId('game').childNodes[0];
+      const secondSquare = el.getByTestId('game').childNodes[1];
+      const thirdSquare = el.getByTestId('game').childNodes[2];
 
       act(() => firstSquare.click());
       act(() => secondSquare.click());
       act(() => thirdSquare.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("O");
-      expect(thirdSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      expect(firstSquare.getElementsByTagName('span')[0].innerHTML).toBe('X');
+      expect(secondSquare.getElementsByTagName('span')[0].innerHTML).toBe('O');
+      expect(thirdSquare.getElementsByTagName('span')[0].innerHTML).toBe('X');
 
       act(() => rollbackBtn.click());
       act(() => rollbackBtn.click());
       act(() => rollbackBtn.click());
       act(() => firstSquare.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
-      expect(thirdSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
+      expect(firstSquare.getElementsByTagName('span')[0].innerHTML).toBe('');
+      expect(secondSquare.getElementsByTagName('span')[0].innerHTML).toBe('');
+      expect(thirdSquare.getElementsByTagName('span')[0].innerHTML).toBe('');
 
       act(() => rollForwardBtn.click());
       act(() => secondSquare.click());
@@ -147,24 +147,24 @@ describe("Game", () => {
       act(() => thirdSquare.click());
       act(() => rollForwardBtn.click());
       act(() => rollForwardBtn.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("O");
-      expect(thirdSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      expect(firstSquare.getElementsByTagName('span')[0].innerHTML).toBe('X');
+      expect(secondSquare.getElementsByTagName('span')[0].innerHTML).toBe('O');
+      expect(thirdSquare.getElementsByTagName('span')[0].innerHTML).toBe('X');
     });
   });
 
-  describe("calculating the winner", () => {
+  describe('calculating the winner', () => {
     it(`
-    X, X, X
+    X  X  X
     O  O  -
     -  -  -
     `, () => {
       const el = render(<Game />);
-      const firstSquare = el.getByTestId("game").childNodes[0];
-      const secondSquare = el.getByTestId("game").childNodes[1];
-      const thirdSquare = el.getByTestId("game").childNodes[2];
-      const fourthSquare = el.getByTestId("game").childNodes[3];
-      const fifthSquare = el.getByTestId("game").childNodes[4];
+      const firstSquare = el.getByTestId('game').childNodes[0];
+      const secondSquare = el.getByTestId('game').childNodes[1];
+      const thirdSquare = el.getByTestId('game').childNodes[2];
+      const fourthSquare = el.getByTestId('game').childNodes[3];
+      const fifthSquare = el.getByTestId('game').childNodes[4];
 
       act(() => firstSquare.click());
       act(() => fourthSquare.click());
@@ -173,6 +173,117 @@ describe("Game", () => {
       act(() => thirdSquare.click());
 
       expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+    });
+
+    it(`
+    O  O  -
+    X  X  X
+    -  -  -
+    `, () => {
+      const el = render(<Game />);
+      const firstSquare = el.getByTestId('game').childNodes[0];
+      const secondSquare = el.getByTestId('game').childNodes[1];
+      const fourthSquare = el.getByTestId('game').childNodes[3];
+      const fifthSquare = el.getByTestId('game').childNodes[4];
+      const sixthSquare = el.getByTestId('game').childNodes[5];
+
+      act(() => fourthSquare.click());
+      act(() => firstSquare.click());
+      act(() => fifthSquare.click());
+      act(() => secondSquare.click());
+      act(() => sixthSquare.click());
+
+      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+    });
+
+    it(`
+    -  -  -
+    O  O  -
+    X  X  X
+    `, () => {
+      const el = render(<Game />);
+      const fourthSquare = el.getByTestId('game').childNodes[3];
+      const fifthSquare = el.getByTestId('game').childNodes[4];
+      const seventhSquare = el.getByTestId('game').childNodes[6];
+      const eighthSquare = el.getByTestId('game').childNodes[7];
+      const ninethSquare = el.getByTestId('game').childNodes[8];
+
+      act(() => seventhSquare.click());
+      act(() => fourthSquare.click());
+      act(() => eighthSquare.click());
+      act(() => fifthSquare.click());
+      act(() => ninethSquare.click());
+
+      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+    });
+
+    it(`
+    O  O  X
+    -  X  -
+    X  -  -
+    `, () => {
+      const el = render(<Game />);
+      const firstSquare = el.getByTestId('game').childNodes[0];
+      const secondSquare = el.getByTestId('game').childNodes[1];
+      const thirdSquare = el.getByTestId('game').childNodes[2];
+      const fifthSquare = el.getByTestId('game').childNodes[4];
+      const seventhSquare = el.getByTestId('game').childNodes[6];
+
+      act(() => thirdSquare.click());
+      act(() => secondSquare.click());
+      act(() => fifthSquare.click());
+      act(() => firstSquare.click());
+      act(() => seventhSquare.click());
+
+      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+    });
+
+    it(`
+    X  O  O
+    -  X  -
+    -  -  X
+    `, () => {
+      const el = render(<Game />);
+      const firstSquare = el.getByTestId('game').childNodes[0];
+      const secondSquare = el.getByTestId('game').childNodes[1];
+      const thirdSquare = el.getByTestId('game').childNodes[2];
+      const fifthSquare = el.getByTestId('game').childNodes[4];
+      const ninethSquare = el.getByTestId('game').childNodes[8];
+
+      act(() => firstSquare.click());
+      act(() => secondSquare.click());
+      act(() => fifthSquare.click());
+      act(() => thirdSquare.click());
+      act(() => ninethSquare.click());
+
+      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+    });
+  });
+
+  describe('reset', () => {
+    it('should allow to reset the board after a winner', () => {
+      const el = render(<Game />);
+      const firstSquare = el.getByTestId('game').childNodes[0];
+      const secondSquare = el.getByTestId('game').childNodes[1];
+      const thirdSquare = el.getByTestId('game').childNodes[2];
+      const fifthSquare = el.getByTestId('game').childNodes[4];
+      const ninethSquare = el.getByTestId('game').childNodes[8];
+
+      act(() => firstSquare.click());
+      act(() => secondSquare.click());
+      act(() => fifthSquare.click());
+      act(() => thirdSquare.click());
+      act(() => ninethSquare.click());
+
+      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+
+      const resetBtn = el.getByText('reset');
+      act(() => resetBtn.click());
+
+      expect(el.getByTestId('game').childNodes.length).toBe(9);
+      el.getByTestId('game').childNodes.forEach(node => {
+        expect(node.getElementsByTagName('span')[0].innerHTML).toBe('');
+      });
     });
   });
 });
