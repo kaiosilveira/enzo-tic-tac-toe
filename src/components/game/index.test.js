@@ -352,6 +352,39 @@ describe('Game', () => {
     });
   });
 
+  describe('tie', () => {
+    it(`
+    X X O
+    O X X
+    X O O
+    `, () => {
+      const aGame = render(<Game />);
+      const [
+        firstSquare,
+        secondSquare,
+        thirdSquare,
+        fourthSquare,
+        fifthSquare,
+        sixthSquare,
+        seventhSquare,
+        eighthSquare,
+        ninethSquare,
+      ] = aGame.getByTestId('game').childNodes;
+
+      fireEvent.click(fifthSquare);
+      fireEvent.click(ninethSquare);
+      fireEvent.click(sixthSquare);
+      fireEvent.click(fourthSquare);
+      fireEvent.click(seventhSquare);
+      fireEvent.click(thirdSquare);
+      fireEvent.click(secondSquare);
+      fireEvent.click(eighthSquare);
+      fireEvent.click(firstSquare);
+
+      expect(aGame.getByText(`Tie!`)).toBeInTheDocument();
+    });
+  });
+
   describe('reset', () => {
     it('should allow to reset the board after a winner', () => {
       const el = render(<Game />);

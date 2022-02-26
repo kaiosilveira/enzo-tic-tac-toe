@@ -60,6 +60,8 @@ const Game = () => {
 
   const isTimeTravelling = () => currentMove < Math.max(0, boardHistory.length - 1);
 
+  const hasMovesAvailable = () => board.some(v => v === '');
+
   const play = position => {
     if (board[position] !== '') return;
     if (isTimeTravelling()) return;
@@ -86,11 +88,13 @@ const Game = () => {
     setBoard(INITIAL_BOARD_STATE);
     setBoardHistory([]);
     setCurrentMove(0);
+    setCurrentSymbol(SYMBOLS.O);
   };
 
   return (
     <React.Fragment>
       {winner.exists && <div>Winner: {winner.playedSymbol}</div>}
+      {!hasMovesAvailable() && !winner.exists && <div>Tie!</div>}
       <S.Controls>
         <button disabled={currentMove === 0} onClick={undoPlay}>
           {'<'}
@@ -103,6 +107,7 @@ const Game = () => {
       <S.Game data-testid="game">
         {board.map((value, i) => (
           <Square
+            data-testid={`square-${i}`}
             key={i}
             symbol={value}
             isPartOfWinningSequence={!isTimeTravelling() && isPartOfWinningSequence(winner, i)}
