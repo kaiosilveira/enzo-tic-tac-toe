@@ -1,43 +1,20 @@
 import React, { useState } from 'react';
+import * as S from './styled';
+import Button from '../Button';
 import Square from '../square';
 import WinnerBanner from '../winner-banner';
-import * as S from './styled';
+import { checkForWinningMove, isPartOfWinningSequence, hasAnyAvailableMove } from '../../utils';
 
 const SYMBOLS = { X: 'X', O: 'O' };
+const TIME_TRAVELLING_DIRECTIONS = {
+  BACKWARD: 'backward',
+  FORWARD: 'forward',
+};
 const INITIAL_BOARD_STATE = new Array(9).fill('');
 const INITIAL_WINNER_STATE = {
   sequence: { name: '', positions: [] },
   playedSymbol: '',
   exists: false,
-};
-
-const checkForWinningMove = (playedSymbol, board) => {
-  const FIRST_ROW = { name: 'first_row', positions: [0, 1, 2] };
-  const SECOND_ROW = { name: 'second_row', positions: [3, 4, 5] };
-  const THIRD_ROW = { name: 'third_row', positions: [6, 7, 8] };
-  const FIRST_COL = { name: 'first_col', positions: [0, 3, 6] };
-  const SECOND_COL = { name: 'second_col', positions: [1, 4, 7] };
-  const THIRD_COL = { name: 'third_col', positions: [2, 5, 8] };
-  const BACKWARD_DIAGONAL = { name: 'backward_diagonal', positions: [2, 4, 6] };
-  const FORWARD_DIAGONAL = { name: 'forward_diagonal', positions: [0, 4, 8] };
-
-  const sequenceHasFullMatch = (sequence, board, playedSymbol) =>
-    sequence.map(v => board[v]).every(i => i === playedSymbol);
-
-  return [
-    FIRST_ROW,
-    SECOND_ROW,
-    THIRD_ROW,
-    FIRST_COL,
-    SECOND_COL,
-    THIRD_COL,
-    BACKWARD_DIAGONAL,
-    FORWARD_DIAGONAL,
-  ].find(s => sequenceHasFullMatch(s.positions, board, playedSymbol));
-};
-
-const isPartOfWinningSequence = (winner, position) => {
-  return !!winner.sequence.name && winner.sequence.positions.includes(position);
 };
 
 const Game = () => {
@@ -47,21 +24,20 @@ const Game = () => {
   const [currentMove, setCurrentMove] = useState(0);
   const [winner, setWinner] = useState(INITIAL_WINNER_STATE);
 
-  const moveBackwards = () => {
-    const targetMove = Math.max(0, currentMove - 1);
-    setBoard(boardHistory[targetMove]);
-    setCurrentMove(targetMove);
-  };
-
-  const moveForwards = () => {
-    const targetMove = Math.min(boardHistory.length - 1, currentMove + 1);
+  const travelInTime = ({ targetMove }) => {
     setBoard(boardHistory[targetMove]);
     setCurrentMove(targetMove);
   };
 
   const isTimeTravelling = () => currentMove < Math.max(0, boardHistory.length - 1);
-
-  const hasMovesAvailable = () => board.some(v => v === '');
+  const moveBackwards = () => {
+    const targetMove = Math.max(0, currentMove - 1);
+    console.log(targetMove, currentMove);
+    travelInTime({ targetMove });
+  };
+  const moveForwards = () => {
+    travelInTime({ targetMove: Math.min(boardHistory.length - 1, currentMove + 1) });
+  };
 
   const play = position => {
     if (board[position] !== '') return;
@@ -94,15 +70,15 @@ const Game = () => {
 
   return (
     <React.Fragment>
-      <WinnerBanner winner={winner} hasMovesAvailable={hasMovesAvailable()} />
+      <WinnerBanner winner={winner} hasMovesAvailable={hasAnyAvailableMove(board)} />
       <S.Controls>
-        <button disabled={currentMove === 0} onClick={moveBackwards}>
-          {'<'}
-        </button>
-        <button disabled={currentMove === boardHistory.length - 1} onClick={moveForwards}>
-          {'>'}
-        </button>
-        <button onClick={reset}>reset</button>
+        <Button disabled={currentMove === 0} text="<" handleClick={moveBackwards} />
+        <Button
+          disabled={currentMove === boardHistory.length - 1}
+          text=">"
+          handleClick={moveForwards}
+        />
+        <Button text="reset" handleClick={reset} />
       </S.Controls>
       <S.Game data-testid="game">
         {board.map((value, i) => (
