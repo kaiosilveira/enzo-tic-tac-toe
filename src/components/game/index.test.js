@@ -1,178 +1,179 @@
-import { render } from "@testing-library/react";
-import { act } from "react-dom/test-utils";
+import { fireEvent, render, screen } from "@testing-library/react";
 import Game from ".";
 
 describe("Game", () => {
   describe("rendering squares", () => {
     it("should render 9 squares", () => {
-      const el = render(<Game />);
-      const squares = el.getByTestId("game");
+      render(<Game />);
+      const squares = screen.getByTestId("game");
       expect(squares.childElementCount).toEqual(9);
     });
   });
 
   describe("clicking squares", () => {
     it("should set the square value when clicked", () => {
-      const el = render(<Game />).getByTestId("game");
-      const firstSquare = el.childNodes[0];
-
-      act(() => firstSquare.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      render(<Game />);
+      const aboard = screen.getByTestId("game");
+      const firstSquare = aboard.childNodes[0];
+      fireEvent.click(firstSquare);
+      expect(firstSquare).toHaveTextContent("X");
     });
 
     it("should not allow multiple clicks on the same square", () => {
-      const el = render(<Game />).getByTestId("game");
-      const firstSquare = el.childNodes[0];
+      render(<Game />);
+      const aboard = screen.getByTestId("game");
+      const firstSquare = aboard.childNodes[0];
 
-      act(() => firstSquare.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      fireEvent.click(firstSquare);
+      expect(firstSquare).toHaveTextContent("X");
 
-      act(() => firstSquare.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      fireEvent.click(firstSquare);
+      expect(firstSquare).toHaveTextContent("X");
     });
   });
 
   describe("undoing actions", () => {
     it("should allow the user to move back a move", () => {
-      const el = render(<Game />);
-      const rollbackBtn = el.getByText("<");
-      const firstSquare = el.getByTestId("game").childNodes[0];
+      render(<Game />);
+      const rollbackBtn = screen.getByText("<");
+      const firstSquare = screen.queryAllByRole("square")[0];
 
-      act(() => firstSquare.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      fireEvent.click(firstSquare);
+      expect(firstSquare).toHaveTextContent("X");
 
-      act(() => rollbackBtn.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
+      fireEvent.click(rollbackBtn);
+      expect(firstSquare).toHaveTextContent("");
     });
 
     it("should not allow to move back if there are no more moves to rollback", () => {
-      const el = render(<Game />);
-      const rollbackBtn = el.getByText("<");
-      const firstSquare = el.getByTestId("game").childNodes[0];
-      const secondSquare = el.getByTestId("game").childNodes[1];
+      render(<Game />);
+      const rollbackBtn = screen.getByText("<");
+      const firstSquare = screen.queryAllByRole("square")[0];
+      const secondSquare = screen.queryAllByRole("square")[1];
 
-      act(() => firstSquare.click());
-      act(() => secondSquare.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("O");
+      fireEvent.click(firstSquare);
+      fireEvent.click(secondSquare);
+      expect(firstSquare).toHaveTextContent("X");
+      expect(secondSquare).toHaveTextContent("O");
 
-      act(() => rollbackBtn.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
+      fireEvent.click(rollbackBtn);
+      expect(firstSquare).toHaveTextContent("X");
+      expect(secondSquare).toHaveTextContent("");
 
-      act(() => rollbackBtn.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
+      fireEvent.click(rollbackBtn);
+      expect(firstSquare).toHaveTextContent("");
+      expect(secondSquare).toHaveTextContent("");
 
-      act(() => rollbackBtn.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
+      fireEvent.click(rollbackBtn);
+      expect(firstSquare).toHaveTextContent("");
+      expect(secondSquare).toHaveTextContent("");
     });
   });
 
   describe("redoing actions", () => {
     it("should allow the user to move forward to a move made", () => {
-      const el = render(<Game />);
-      const rollbackBtn = el.getByText("<");
-      const rollForwardBtn = el.getByText(">");
-      const firstSquare = el.getByTestId("game").childNodes[0];
+      render(<Game />);
+      const rollbackBtn = screen.getByText("<");
+      const rollForwardBtn = screen.getByText(">");
+      const firstSquare = screen.queryAllByRole("square")[0];
 
-      act(() => firstSquare.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      fireEvent.click(firstSquare);
+      expect(firstSquare).toHaveTextContent("X");
 
-      act(() => rollbackBtn.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
+      fireEvent.click(rollbackBtn);
+      expect(firstSquare).toHaveTextContent("");
 
-      act(() => rollForwardBtn.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      fireEvent.click(rollForwardBtn);
+      expect(firstSquare).toHaveTextContent("X");
     });
 
     it("should not allow to move forward if there are no more moves ahead", () => {
-      const el = render(<Game />);
-      const rollbackBtn = el.getByText("<");
-      const rollForwardBtn = el.getByText(">");
-      const firstSquare = el.getByTestId("game").childNodes[0];
-      const secondSquare = el.getByTestId("game").childNodes[1];
-      const thirdSquare = el.getByTestId("game").childNodes[2];
+      render(<Game />);
+      const rollbackBtn = screen.getByText("<");
+      const rollForwardBtn = screen.getByText(">");
+      const firstSquare = screen.queryAllByRole("square")[0];
+      const secondSquare = screen.queryAllByRole("square")[1];
+      const thirdSquare = screen.queryAllByRole("square")[2];
 
-      act(() => firstSquare.click());
-      act(() => secondSquare.click());
-      act(() => thirdSquare.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("O");
-      expect(thirdSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      fireEvent.click(firstSquare);
+      fireEvent.click(secondSquare);
+      fireEvent.click(thirdSquare);
+      expect(firstSquare).toHaveTextContent("X");
+      expect(secondSquare).toHaveTextContent("O");
+      expect(thirdSquare).toHaveTextContent("X");
 
-      act(() => rollbackBtn.click());
-      act(() => rollbackBtn.click());
-      act(() => rollbackBtn.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
-      expect(thirdSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
+      fireEvent.click(rollbackBtn);
+      fireEvent.click(rollbackBtn);
+      fireEvent.click(rollbackBtn);
+      expect(firstSquare).toHaveTextContent("");
+      expect(secondSquare).toHaveTextContent("");
+      expect(thirdSquare).toHaveTextContent("");
 
-      act(() => rollForwardBtn.click());
-      act(() => rollForwardBtn.click());
-      act(() => rollForwardBtn.click());
-      act(() => rollForwardBtn.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("O");
-      expect(thirdSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      fireEvent.click(rollForwardBtn);
+      fireEvent.click(rollForwardBtn);
+      fireEvent.click(rollForwardBtn);
+      fireEvent.click(rollForwardBtn);
+      expect(firstSquare).toHaveTextContent("X");
+      expect(secondSquare).toHaveTextContent("O");
+      expect(thirdSquare).toHaveTextContent("X");
     });
 
     it("should ignore plays if the current board state is not the last one", () => {
-      const el = render(<Game />);
-      const rollbackBtn = el.getByText("<");
-      const rollForwardBtn = el.getByText(">");
-      const firstSquare = el.getByTestId("game").childNodes[0];
-      const secondSquare = el.getByTestId("game").childNodes[1];
-      const thirdSquare = el.getByTestId("game").childNodes[2];
+      render(<Game />);
+      const rollbackBtn = screen.getByText("<");
+      const rollForwardBtn = screen.getByText(">");
+      const firstSquare = screen.queryAllByRole("square")[0];
+      const secondSquare = screen.queryAllByRole("square")[1];
+      const thirdSquare = screen.queryAllByRole("square")[2];
 
-      act(() => firstSquare.click());
-      act(() => secondSquare.click());
-      act(() => thirdSquare.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("O");
-      expect(thirdSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      fireEvent.click(firstSquare);
+      fireEvent.click(secondSquare);
+      fireEvent.click(thirdSquare);
+      expect(firstSquare).toHaveTextContent("X");
+      expect(secondSquare).toHaveTextContent("O");
+      expect(thirdSquare).toHaveTextContent("X");
 
-      act(() => rollbackBtn.click());
-      act(() => rollbackBtn.click());
-      act(() => rollbackBtn.click());
-      act(() => firstSquare.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
-      expect(thirdSquare.getElementsByTagName("span")[0].innerHTML).toBe("");
+      fireEvent.click(rollbackBtn);
+      fireEvent.click(rollbackBtn);
+      fireEvent.click(rollbackBtn);
+      fireEvent.click(rollbackBtn);
+      fireEvent.click(firstSquare);
+      expect(firstSquare).toHaveTextContent("");
+      expect(secondSquare).toHaveTextContent("");
+      expect(thirdSquare).toHaveTextContent("");
 
-      act(() => rollForwardBtn.click());
-      act(() => secondSquare.click());
-      act(() => rollForwardBtn.click());
-      act(() => thirdSquare.click());
-      act(() => rollForwardBtn.click());
-      act(() => rollForwardBtn.click());
-      expect(firstSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
-      expect(secondSquare.getElementsByTagName("span")[0].innerHTML).toBe("O");
-      expect(thirdSquare.getElementsByTagName("span")[0].innerHTML).toBe("X");
+      fireEvent.click(rollForwardBtn);
+      fireEvent.click(secondSquare);
+      fireEvent.click(rollForwardBtn);
+      fireEvent.click(thirdSquare);
+      fireEvent.click(rollForwardBtn);
+      fireEvent.click(rollForwardBtn);
+      expect(firstSquare).toHaveTextContent("X");
+      expect(secondSquare).toHaveTextContent("O");
+      expect(thirdSquare).toHaveTextContent("X");
     });
   });
 
   describe("calculating the winner", () => {
+    // eslint-disable-next-line jest/valid-title
     it(`
     X, X, X
     O  O  -
     -  -  -
-    `, () => {
-      const el = render(<Game />);
-      const firstSquare = el.getByTestId("game").childNodes[0];
-      const secondSquare = el.getByTestId("game").childNodes[1];
-      const thirdSquare = el.getByTestId("game").childNodes[2];
-      const fourthSquare = el.getByTestId("game").childNodes[3];
-      const fifthSquare = el.getByTestId("game").childNodes[4];
+`, () => {
+      render(<Game />);
+      const firstSquare = screen.queryAllByRole("square")[0];
+      const secondSquare = screen.queryAllByRole("square")[1];
+      const thirdSquare = screen.queryAllByRole("square")[2];
+      const fourthSquare = screen.queryAllByRole("square")[3];
+      const fifthSquare = screen.queryAllByRole("square")[4];
 
-      act(() => firstSquare.click());
-      act(() => fourthSquare.click());
-      act(() => secondSquare.click());
-      act(() => fifthSquare.click());
-      act(() => thirdSquare.click());
-
-      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+      fireEvent.click(firstSquare);
+      fireEvent.click(fourthSquare);
+      fireEvent.click(secondSquare);
+      fireEvent.click(fifthSquare);
+      fireEvent.click(thirdSquare);
+      expect(screen.getByText(`Winner: X`)).toBeInTheDocument();
     });
   });
 });

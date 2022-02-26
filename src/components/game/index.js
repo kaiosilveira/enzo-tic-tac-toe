@@ -4,8 +4,10 @@ import * as S from "./styled";
 
 const SYMBOLS = { X: "X", O: "O" };
 
+const baseBoard = new Array(9).fill("");
+
 const Game = () => {
-  const [board, setBoard] = useState(new Array(9).fill(""));
+  const [board, setBoard] = useState(baseBoard);
   const [boardHistory, setBoardHistory] = useState([]);
   const [currentSymbol, setCurrentSymbol] = useState(SYMBOLS.O);
   const [currentMove, setCurrentMove] = useState(0);
@@ -42,7 +44,7 @@ const Game = () => {
   };
 
   useEffect(() => {
-    setBoardHistory([board]);
+    setBoardHistory([baseBoard]);
   }, []);
 
   return (
