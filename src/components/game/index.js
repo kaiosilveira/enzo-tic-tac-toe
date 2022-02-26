@@ -6,10 +6,6 @@ import WinnerBanner from '../winner-banner';
 import { checkForWinningMove, isPartOfWinningSequence, hasAnyAvailableMove } from '../../utils';
 
 const SYMBOLS = { X: 'X', O: 'O' };
-const TIME_TRAVELLING_DIRECTIONS = {
-  BACKWARD: 'backward',
-  FORWARD: 'forward',
-};
 const INITIAL_BOARD_STATE = new Array(9).fill('');
 const INITIAL_WINNER_STATE = {
   sequence: { name: '', positions: [] },
