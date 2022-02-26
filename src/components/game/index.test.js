@@ -3,11 +3,17 @@ import { act } from 'react-dom/test-utils';
 import Game from '.';
 
 describe('Game', () => {
-  describe('rendering squares', () => {
+  describe('initial state', () => {
     it('should render 9 squares', () => {
       const el = render(<Game />);
       const squares = el.getByTestId('game');
       expect(squares.childElementCount).toEqual(9);
+    });
+
+    it('should have the control buttons to move backwards and forwards disabled', () => {
+      const { getByText } = render(<Game />);
+      expect(getByText('<')).toBeDisabled();
+      expect(getByText('>')).toBeDisabled();
     });
   });
 

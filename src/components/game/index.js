@@ -26,7 +26,7 @@ const Game = () => {
 
   const play = position => {
     if (board[position] !== '') return;
-    if (currentMove !== boardHistory.length - 1) return;
+    if (currentMove < Math.max(0, boardHistory.length - 1)) return;
     if (winner) return;
 
     const playedSymbol = currentSymbol === SYMBOLS.X ? SYMBOLS.O : SYMBOLS.X;
@@ -34,6 +34,7 @@ const Game = () => {
 
     const newBoardState = [...board];
     newBoardState[position] = playedSymbol;
+
     setBoard(newBoardState);
     setBoardHistory([...boardHistory, newBoardState]);
     setCurrentMove(currentMove + 1);
@@ -53,6 +54,7 @@ const Game = () => {
     setWinner('');
     setBoard(INITIAL_BOARD_STATE);
     setBoardHistory([]);
+    setCurrentMove(0);
   };
 
   useEffect(() => {
@@ -63,8 +65,12 @@ const Game = () => {
     <React.Fragment>
       {winner && <div>Winner: {winner}</div>}
       <S.Controls>
-        <button onClick={undoPlay}>{'<'}</button>
-        <button onClick={redoPlay}>{'>'}</button>
+        <button disabled={currentMove === 0} onClick={undoPlay}>
+          {'<'}
+        </button>
+        <button disabled={currentMove === boardHistory.length - 1} onClick={redoPlay}>
+          {'>'}
+        </button>
         <button onClick={reset}>reset</button>
       </S.Controls>
       <S.Game data-testid="game">
