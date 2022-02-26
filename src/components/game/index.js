@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Square from '../square';
+import WinnerBanner from '../winner-banner';
 import * as S from './styled';
 
 const SYMBOLS = { X: 'X', O: 'O' };
@@ -46,13 +47,13 @@ const Game = () => {
   const [currentMove, setCurrentMove] = useState(0);
   const [winner, setWinner] = useState(INITIAL_WINNER_STATE);
 
-  const undoPlay = () => {
+  const moveBackwards = () => {
     const targetMove = Math.max(0, currentMove - 1);
     setBoard(boardHistory[targetMove]);
     setCurrentMove(targetMove);
   };
 
-  const redoPlay = () => {
+  const moveForwards = () => {
     const targetMove = Math.min(boardHistory.length - 1, currentMove + 1);
     setBoard(boardHistory[targetMove]);
     setCurrentMove(targetMove);
@@ -93,13 +94,12 @@ const Game = () => {
 
   return (
     <React.Fragment>
-      {winner.exists && <div>Winner: {winner.playedSymbol}</div>}
-      {!hasMovesAvailable() && !winner.exists && <div>Tie!</div>}
+      <WinnerBanner winner={winner} hasMovesAvailable={hasMovesAvailable()} />
       <S.Controls>
-        <button disabled={currentMove === 0} onClick={undoPlay}>
+        <button disabled={currentMove === 0} onClick={moveBackwards}>
           {'<'}
         </button>
-        <button disabled={currentMove === boardHistory.length - 1} onClick={redoPlay}>
+        <button disabled={currentMove === boardHistory.length - 1} onClick={moveForwards}>
           {'>'}
         </button>
         <button onClick={reset}>reset</button>
