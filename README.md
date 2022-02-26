@@ -1,4 +1,4 @@
-[![Deploy to Development Environment](https://github.com/kaiosilveira/enzo-tick-tack-toe/actions/workflows/ci.yml/badge.svg)](https://github.com/kaiosilveira/enzo-tick-tack-toe/actions/workflows/ci.yml)
+[![Continous Integration](https://github.com/kaiosilveira/enzo-tick-tack-toe/actions/workflows/ci.yml/badge.svg)](https://github.com/kaiosilveira/enzo-tick-tack-toe/actions/workflows/ci.yml)
 
 # Enzo tick-tac-toe
 
