@@ -266,6 +266,90 @@ describe('Game', () => {
 
       expect(el.getByText(`Winner: X`)).toBeInTheDocument();
     });
+
+    it(`
+    X  O  -
+    X  O  -
+    X  -  -
+    `, () => {
+      const el = render(<Game />);
+      const firstSquare = el.getByTestId('game').childNodes[0];
+      const secondSquare = el.getByTestId('game').childNodes[1];
+      const fourthSquare = el.getByTestId('game').childNodes[3];
+      const fifthSquare = el.getByTestId('game').childNodes[4];
+      const seventhSquare = el.getByTestId('game').childNodes[6];
+
+      act(() => firstSquare.click());
+      act(() => secondSquare.click());
+      act(() => fourthSquare.click());
+      act(() => fifthSquare.click());
+      act(() => seventhSquare.click());
+
+      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+    });
+
+    it(`
+    X  O  -
+    X  O  -
+    X  -  -
+    `, () => {
+      const el = render(<Game />);
+      const firstSquare = el.getByTestId('game').childNodes[0];
+      const secondSquare = el.getByTestId('game').childNodes[1];
+      const fourthSquare = el.getByTestId('game').childNodes[3];
+      const fifthSquare = el.getByTestId('game').childNodes[4];
+      const seventhSquare = el.getByTestId('game').childNodes[6];
+
+      act(() => firstSquare.click());
+      act(() => secondSquare.click());
+      act(() => fourthSquare.click());
+      act(() => fifthSquare.click());
+      act(() => seventhSquare.click());
+
+      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+    });
+
+    it(`
+    O  X  -
+    O  X  -
+    -  X  -
+    `, () => {
+      const el = render(<Game />);
+      const firstSquare = el.getByTestId('game').childNodes[0];
+      const secondSquare = el.getByTestId('game').childNodes[1];
+      const fourthSquare = el.getByTestId('game').childNodes[3];
+      const fifthSquare = el.getByTestId('game').childNodes[4];
+      const eigthSquare = el.getByTestId('game').childNodes[7];
+
+      act(() => secondSquare.click());
+      act(() => firstSquare.click());
+      act(() => fifthSquare.click());
+      act(() => fourthSquare.click());
+      act(() => eigthSquare.click());
+
+      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+    });
+
+    it(`
+    -  O  X
+    -  O  X
+    -  -  X
+    `, () => {
+      const el = render(<Game />);
+      const secondSquare = el.getByTestId('game').childNodes[1];
+      const thirdSquare = el.getByTestId('game').childNodes[2];
+      const fifthSquare = el.getByTestId('game').childNodes[4];
+      const sixthSquare = el.getByTestId('game').childNodes[5];
+      const ninethSquare = el.getByTestId('game').childNodes[8];
+
+      act(() => thirdSquare.click());
+      act(() => secondSquare.click());
+      act(() => sixthSquare.click());
+      act(() => fifthSquare.click());
+      act(() => ninethSquare.click());
+
+      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+    });
   });
 
   describe('reset', () => {

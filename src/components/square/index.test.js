@@ -16,4 +16,10 @@ describe('Square', () => {
     fireEvent.click(square);
     expect(onClick).toHaveBeenCalled();
   });
+
+  it('should have a different background color if is part of a winning position', () => {
+    render(<Square symbol={symbol} isPartOfWinningSequence={true} />);
+    const aSquare = screen.getByRole('square');
+    expect(aSquare).toHaveStyle({ backgroundColor: '#65C18C' });
+  });
 });
