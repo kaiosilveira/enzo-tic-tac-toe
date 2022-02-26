@@ -1,6 +1,6 @@
 [![Continous Integration](https://github.com/kaiosilveira/enzo-tick-tack-toe/actions/workflows/ci.yml/badge.svg)](https://github.com/kaiosilveira/enzo-tick-tack-toe/actions/workflows/ci.yml)
 
-# Enzo tick-tac-toe
+# Enzo tic-tac-toe
 
 Enzo wanted to play a tic-tac-toe game on the computer, so we decided to build one 🤣
 
