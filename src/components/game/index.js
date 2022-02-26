@@ -7,7 +7,7 @@ const SYMBOLS = { X: 'X', O: 'O' };
 
 const Game = () => {
   const [board, setBoard] = useState(INITIAL_BOARD_STATE);
-  const [boardHistory, setBoardHistory] = useState([]);
+  const [boardHistory, setBoardHistory] = useState([board]);
   const [currentSymbol, setCurrentSymbol] = useState(SYMBOLS.O);
   const [currentMove, setCurrentMove] = useState(0);
   const [winner, setWinner] = useState(undefined);
@@ -56,10 +56,6 @@ const Game = () => {
     setBoardHistory([]);
     setCurrentMove(0);
   };
-
-  useEffect(() => {
-    setBoardHistory([board]);
-  }, [board]);
 
   return (
     <React.Fragment>
