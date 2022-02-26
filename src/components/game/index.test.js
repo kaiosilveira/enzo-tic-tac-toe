@@ -11,9 +11,9 @@ describe('Game', () => {
     });
 
     it('should have the control buttons to move backwards and forwards disabled', () => {
-      const { getByText } = render(<Game />);
-      expect(getByText('<')).toBeDisabled();
-      expect(getByText('>')).toBeDisabled();
+      render(<Game />);
+      expect(screen.getByText('<')).toBeDisabled();
+      expect(screen.getByText('>')).toBeDisabled();
     });
   });
 
