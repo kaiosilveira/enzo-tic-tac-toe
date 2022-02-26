@@ -1,0 +1,38 @@
+name: Continous Integration
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  continous-integration:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.14.0]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn-lock.json') }}
+
+      - name: Run unit tests
+        run: npm run test
+
+      - name: Build
+        run: npm run build
