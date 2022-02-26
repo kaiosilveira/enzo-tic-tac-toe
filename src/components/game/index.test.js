@@ -20,16 +20,14 @@ describe('Game', () => {
   describe('clicking squares', () => {
     it('should set the square value when clicked', () => {
       render(<Game />);
-      const aboard = screen.getByTestId('game');
-      const firstSquare = aboard.childNodes[0];
+      const firstSquare = screen.queryAllByRole('square')[0];
       fireEvent.click(firstSquare);
       expect(firstSquare).toHaveTextContent('X');
     });
 
     it('should not allow multiple clicks on the same square', () => {
       render(<Game />);
-      const aboard = screen.getByTestId('game');
-      const firstSquare = aboard.childNodes[0];
+      const firstSquare = screen.queryAllByRole('square')[0];
 
       fireEvent.click(firstSquare);
       expect(firstSquare).toHaveTextContent('X');
@@ -188,20 +186,21 @@ describe('Game', () => {
     X  X  X
     -  -  -
     `, () => {
-      const el = render(<Game />);
-      const firstSquare = el.getByTestId('game').childNodes[0];
-      const secondSquare = el.getByTestId('game').childNodes[1];
-      const fourthSquare = el.getByTestId('game').childNodes[3];
-      const fifthSquare = el.getByTestId('game').childNodes[4];
-      const sixthSquare = el.getByTestId('game').childNodes[5];
+      const aGame = render(<Game />);
+      const squares = aGame.queryAllByRole('square');
+      const firstSquare = squares[0];
+      const secondSquare = squares[1];
+      const fourthSquare = squares[3];
+      const fifthSquare = squares[4];
+      const sixthSquare = squares[5];
 
-      act(() => fourthSquare.click());
-      act(() => firstSquare.click());
-      act(() => fifthSquare.click());
-      act(() => secondSquare.click());
-      act(() => sixthSquare.click());
+      fireEvent.click(fourthSquare);
+      fireEvent.click(firstSquare);
+      fireEvent.click(fifthSquare);
+      fireEvent.click(secondSquare);
+      fireEvent.click(sixthSquare);
 
-      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+      expect(aGame.getByText(`Winner: X`)).toBeInTheDocument();
     });
 
     it(`
@@ -209,12 +208,13 @@ describe('Game', () => {
     O  O  -
     X  X  X
     `, () => {
-      const el = render(<Game />);
-      const fourthSquare = el.getByTestId('game').childNodes[3];
-      const fifthSquare = el.getByTestId('game').childNodes[4];
-      const seventhSquare = el.getByTestId('game').childNodes[6];
-      const eighthSquare = el.getByTestId('game').childNodes[7];
-      const ninethSquare = el.getByTestId('game').childNodes[8];
+      const aGame = render(<Game />);
+      const squares = aGame.queryAllByRole('square');
+      const fourthSquare = squares[3];
+      const fifthSquare = squares[4];
+      const seventhSquare = squares[6];
+      const eighthSquare = squares[7];
+      const ninethSquare = squares[8];
 
       act(() => seventhSquare.click());
       act(() => fourthSquare.click());
@@ -222,7 +222,7 @@ describe('Game', () => {
       act(() => fifthSquare.click());
       act(() => ninethSquare.click());
 
-      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+      expect(aGame.getByText(`Winner: X`)).toBeInTheDocument();
     });
 
     it(`
@@ -230,12 +230,13 @@ describe('Game', () => {
     -  X  -
     X  -  -
     `, () => {
-      const el = render(<Game />);
-      const firstSquare = el.getByTestId('game').childNodes[0];
-      const secondSquare = el.getByTestId('game').childNodes[1];
-      const thirdSquare = el.getByTestId('game').childNodes[2];
-      const fifthSquare = el.getByTestId('game').childNodes[4];
-      const seventhSquare = el.getByTestId('game').childNodes[6];
+      const aGame = render(<Game />);
+      const squares = aGame.queryAllByRole('square');
+      const firstSquare = squares[0];
+      const secondSquare = squares[1];
+      const thirdSquare = squares[2];
+      const fifthSquare = squares[4];
+      const seventhSquare = squares[6];
 
       act(() => thirdSquare.click());
       act(() => secondSquare.click());
@@ -243,7 +244,7 @@ describe('Game', () => {
       act(() => firstSquare.click());
       act(() => seventhSquare.click());
 
-      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+      expect(aGame.getByText(`Winner: X`)).toBeInTheDocument();
     });
 
     it(`
@@ -251,12 +252,13 @@ describe('Game', () => {
     -  X  -
     -  -  X
     `, () => {
-      const el = render(<Game />);
-      const firstSquare = el.getByTestId('game').childNodes[0];
-      const secondSquare = el.getByTestId('game').childNodes[1];
-      const thirdSquare = el.getByTestId('game').childNodes[2];
-      const fifthSquare = el.getByTestId('game').childNodes[4];
-      const ninethSquare = el.getByTestId('game').childNodes[8];
+      const aGame = render(<Game />);
+      const squares = aGame.queryAllByRole('square');
+      const firstSquare = squares[0];
+      const secondSquare = squares[1];
+      const thirdSquare = squares[2];
+      const fifthSquare = squares[4];
+      const ninethSquare = squares[8];
 
       act(() => firstSquare.click());
       act(() => secondSquare.click());
@@ -264,7 +266,7 @@ describe('Game', () => {
       act(() => thirdSquare.click());
       act(() => ninethSquare.click());
 
-      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+      expect(aGame.getByText(`Winner: X`)).toBeInTheDocument();
     });
 
     it(`
@@ -272,12 +274,13 @@ describe('Game', () => {
     X  O  -
     X  -  -
     `, () => {
-      const el = render(<Game />);
-      const firstSquare = el.getByTestId('game').childNodes[0];
-      const secondSquare = el.getByTestId('game').childNodes[1];
-      const fourthSquare = el.getByTestId('game').childNodes[3];
-      const fifthSquare = el.getByTestId('game').childNodes[4];
-      const seventhSquare = el.getByTestId('game').childNodes[6];
+      const aGame = render(<Game />);
+      const squares = aGame.queryAllByRole('square');
+      const firstSquare = squares[0];
+      const secondSquare = squares[1];
+      const fourthSquare = squares[3];
+      const fifthSquare = squares[4];
+      const seventhSquare = squares[6];
 
       act(() => firstSquare.click());
       act(() => secondSquare.click());
@@ -285,7 +288,7 @@ describe('Game', () => {
       act(() => fifthSquare.click());
       act(() => seventhSquare.click());
 
-      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+      expect(aGame.getByText(`Winner: X`)).toBeInTheDocument();
     });
 
     it(`
@@ -293,12 +296,13 @@ describe('Game', () => {
     X  O  -
     X  -  -
     `, () => {
-      const el = render(<Game />);
-      const firstSquare = el.getByTestId('game').childNodes[0];
-      const secondSquare = el.getByTestId('game').childNodes[1];
-      const fourthSquare = el.getByTestId('game').childNodes[3];
-      const fifthSquare = el.getByTestId('game').childNodes[4];
-      const seventhSquare = el.getByTestId('game').childNodes[6];
+      const aGame = render(<Game />);
+      const squares = aGame.queryAllByRole('square');
+      const firstSquare = squares[0];
+      const secondSquare = squares[1];
+      const fourthSquare = squares[3];
+      const fifthSquare = squares[4];
+      const seventhSquare = squares[6];
 
       act(() => firstSquare.click());
       act(() => secondSquare.click());
@@ -306,7 +310,7 @@ describe('Game', () => {
       act(() => fifthSquare.click());
       act(() => seventhSquare.click());
 
-      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+      expect(aGame.getByText(`Winner: X`)).toBeInTheDocument();
     });
 
     it(`
@@ -314,12 +318,13 @@ describe('Game', () => {
     O  X  -
     -  X  -
     `, () => {
-      const el = render(<Game />);
-      const firstSquare = el.getByTestId('game').childNodes[0];
-      const secondSquare = el.getByTestId('game').childNodes[1];
-      const fourthSquare = el.getByTestId('game').childNodes[3];
-      const fifthSquare = el.getByTestId('game').childNodes[4];
-      const eigthSquare = el.getByTestId('game').childNodes[7];
+      const aGame = render(<Game />);
+      const squares = aGame.queryAllByRole('square');
+      const firstSquare = squares[0];
+      const secondSquare = squares[1];
+      const fourthSquare = squares[3];
+      const fifthSquare = squares[4];
+      const eigthSquare = squares[7];
 
       act(() => secondSquare.click());
       act(() => firstSquare.click());
@@ -327,7 +332,7 @@ describe('Game', () => {
       act(() => fourthSquare.click());
       act(() => eigthSquare.click());
 
-      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+      expect(aGame.getByText(`Winner: X`)).toBeInTheDocument();
     });
 
     it(`
@@ -335,20 +340,21 @@ describe('Game', () => {
     -  O  X
     -  -  X
     `, () => {
-      const el = render(<Game />);
-      const secondSquare = el.getByTestId('game').childNodes[1];
-      const thirdSquare = el.getByTestId('game').childNodes[2];
-      const fifthSquare = el.getByTestId('game').childNodes[4];
-      const sixthSquare = el.getByTestId('game').childNodes[5];
-      const ninethSquare = el.getByTestId('game').childNodes[8];
+      const aGame = render(<Game />);
+      const squares = aGame.queryAllByRole('square');
+      const secondSquare = squares[1];
+      const thirdSquare = squares[2];
+      const fifthSquare = squares[4];
+      const sixthSquare = squares[5];
+      const ninethSquare = squares[8];
 
-      act(() => thirdSquare.click());
-      act(() => secondSquare.click());
-      act(() => sixthSquare.click());
-      act(() => fifthSquare.click());
-      act(() => ninethSquare.click());
+      fireEvent.click(thirdSquare);
+      fireEvent.click(secondSquare);
+      fireEvent.click(sixthSquare);
+      fireEvent.click(fifthSquare);
+      fireEvent.click(ninethSquare);
 
-      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+      expect(aGame.getByText(`Winner: X`)).toBeInTheDocument();
     });
   });
 
@@ -369,7 +375,7 @@ describe('Game', () => {
         seventhSquare,
         eighthSquare,
         ninethSquare,
-      ] = aGame.getByTestId('game').childNodes;
+      ] = aGame.queryAllByRole('square');
 
       fireEvent.click(fifthSquare);
       fireEvent.click(ninethSquare);
@@ -387,12 +393,13 @@ describe('Game', () => {
 
   describe('reset', () => {
     it('should allow to reset the board after a winner', () => {
-      const el = render(<Game />);
-      const firstSquare = el.getByTestId('game').childNodes[0];
-      const secondSquare = el.getByTestId('game').childNodes[1];
-      const thirdSquare = el.getByTestId('game').childNodes[2];
-      const fifthSquare = el.getByTestId('game').childNodes[4];
-      const ninethSquare = el.getByTestId('game').childNodes[8];
+      const aGame = render(<Game />);
+      const squares = aGame.queryAllByRole('square');
+      const firstSquare = squares[0];
+      const secondSquare = squares[1];
+      const thirdSquare = squares[2];
+      const fifthSquare = squares[4];
+      const ninethSquare = squares[8];
 
       act(() => firstSquare.click());
       act(() => secondSquare.click());
@@ -400,13 +407,14 @@ describe('Game', () => {
       act(() => thirdSquare.click());
       act(() => ninethSquare.click());
 
-      expect(el.getByText(`Winner: X`)).toBeInTheDocument();
+      expect(aGame.getByText(`Winner: X`)).toBeInTheDocument();
 
-      const resetBtn = el.getByText('reset');
+      const resetBtn = aGame.getByText('reset');
       act(() => resetBtn.click());
 
-      expect(el.getByTestId('game').childNodes.length).toBe(9);
-      el.getByTestId('game').childNodes.forEach(node => {
+      const reRenderedSquares = aGame.queryAllByRole('square');
+      expect(reRenderedSquares.length).toBe(9);
+      reRenderedSquares.forEach(node => {
         expect(node.getElementsByTagName('span')[0].innerHTML).toBe('');
       });
     });
