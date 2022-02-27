@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import * as S from './styled';
 import Button from '../Button';
-import Square from '../square';
 import WinnerBanner from '../winner-banner';
-import { checkForWinningMove, isPartOfWinningSequence, hasAnyAvailableMove } from '../../utils';
+import { checkForWinningMove, hasAnyAvailableMove } from '../../utils';
+import Board from '../board';
 
 const SYMBOLS = { X: 'X', O: 'O' };
 const INITIAL_BOARD_STATE = new Array(9).fill('');
@@ -65,7 +65,12 @@ const Game = () => {
 
   return (
     <React.Fragment>
-      <WinnerBanner winner={winner} hasMovesAvailable={hasAnyAvailableMove(board)} />
+      <WinnerBanner
+        winner={winner}
+        hasMovesAvailable={hasAnyAvailableMove(board)}
+        onPressPlayAgain={reset}
+        winningBoard={board}
+      />
       <S.Controls>
         <Button disabled={currentMove === 0} text="<" handleClick={moveBackwards} />
         <Button
@@ -75,17 +80,12 @@ const Game = () => {
         />
         <Button text="reset" handleClick={reset} />
       </S.Controls>
-      <S.Game data-testid="game">
-        {board.map((value, i) => (
-          <Square
-            data-testid={`square-${i}`}
-            key={i}
-            symbol={value}
-            isPartOfWinningSequence={!isTimeTravelling() && isPartOfWinningSequence(winner, i)}
-            onClick={() => play(i)}
-          />
-        ))}
-      </S.Game>
+      <Board
+        board={board}
+        handlePlay={i => play(i)}
+        winner={winner}
+        isTimeTravelling={isTimeTravelling()}
+      />
     </React.Fragment>
   );
 };

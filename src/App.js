@@ -1,10 +1,11 @@
-import Game from "./components/game";
+import Game from './components/game';
+import * as S from './StyledApp';
 
 const App = () => {
   return (
-    <div className="App">
+    <S.App>
       <Game />
-    </div>
+    </S.App>
   );
 };
 
